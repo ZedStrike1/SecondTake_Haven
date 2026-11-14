@@ -28,10 +28,8 @@ public class MusuhSederhana : MonoBehaviour
     {
         if (cooldownSerang > 0) cooldownSerang -= Time.fixedDeltaTime;
 
-        // Langsung gerakkan dengan linearVelocity (pasti jalan di Unity 6)
         rb.linearVelocity = new Vector2(arah * kecepatan, 0f);
 
-        // Balik arah jika melewati batas jarakPatroli
         if (transform.position.x >= posisiAwal.x + jarakPatroli)
         {
             arah = -1;

@@ -4,10 +4,12 @@ public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     private int currentHealth;
+    private UIManager uiManager;
 
     void Start()
     {
         currentHealth = maxHealth;
+        uiManager = FindFirstObjectByType<UIManager>();
     }
 
     public void TakeDamage(int damage)
@@ -17,11 +19,10 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Debug.Log("Player Mati! Game Over");
-
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
-            );
+            if (uiManager != null)
+            {
+                uiManager.TampilkanRespawn();
+            }
         }
     }
 }
