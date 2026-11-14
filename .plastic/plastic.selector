@@ -1,0 +1,4 @@
+repository "Second Take 2026-11-14_11-19-20/Second Take@20066899427545@cloud"
+  path "/"
+    br "/main"
+    co "/main"
