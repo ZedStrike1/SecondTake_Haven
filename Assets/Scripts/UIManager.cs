@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 
         if (!sudahMulai)
         {
-            // Baru pertama kali pencet Play -> tampilkan menu Play
+
             if (panelStart != null) panelStart.SetActive(true);
             Time.timeScale = 0f;
         }
