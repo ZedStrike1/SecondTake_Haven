@@ -32,12 +32,20 @@ public class PlayerMovement : MonoBehaviour
 
         if (isMoving)
         {
-            lastMoveX = moveInput.x;
-            lastMoveY = moveInput.y;
+            if (moveX != 0f)
+            {
+                lastMoveX = moveX;
+                lastMoveY = 0f;
+            }
+            else
+            {
+                lastMoveX = 0f;
+                lastMoveY = moveY;
+            }
         }
 
-        anim.SetFloat("Horizontal", isMoving ? moveInput.x : lastMoveX);
-        anim.SetFloat("Vertical", isMoving ? moveInput.y : lastMoveY);
+        anim.SetFloat("Horizontal", lastMoveX);
+        anim.SetFloat("Vertical", lastMoveY);
         anim.SetFloat("Speed", moveInput.sqrMagnitude);
     }
 
