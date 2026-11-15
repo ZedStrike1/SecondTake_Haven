@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ArenaManager : MonoBehaviour
 {
+    [Header("Pengaturan Arena")]
     public int totalMinions = 5;
     public GameObject bossObject;
     public GameObject portalOrDoor;
@@ -11,8 +12,16 @@ public class ArenaManager : MonoBehaviour
 
     void Start()
     {
+        ResetArena();
+    }
+
+
+    public void ResetArena()
+    {
+        killedMinions = 0;
         if (bossObject != null) bossObject.SetActive(false);
         if (portalOrDoor != null) portalOrDoor.SetActive(false);
+        Debug.Log("Tracker Arena di-reset! Musuh mati: 0/" + totalMinions);
     }
 
     public void OnMinionKilled()

@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class MusuhSederhana : MonoBehaviour
 {
+    [Header("Hubungkan ke Arena Manager Map Ini")]
+    public ArenaManager arenaManager;
+
+    [Header("Status Musuh")]
     public bool isBoss = false;
     public int hp = 30;
     public int damageKePlayer = 10;
@@ -13,7 +17,6 @@ public class MusuhSederhana : MonoBehaviour
     private int arah = 1;
     private SpriteRenderer sprite;
     private Rigidbody2D rb;
-    private ArenaManager arenaManager;
     private float cooldownSerang = 0f;
 
     void Start()
@@ -21,7 +24,12 @@ public class MusuhSederhana : MonoBehaviour
         posisiAwal = transform.position;
         sprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
-        arenaManager = FindFirstObjectByType<ArenaManager>();
+
+        // Jika lupa diisi manual di Inspector, cari otomatis
+        if (arenaManager == null)
+        {
+            arenaManager = FindFirstObjectByType<ArenaManager>();
+        }
     }
 
     void FixedUpdate()
