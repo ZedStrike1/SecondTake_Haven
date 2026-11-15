@@ -1,12 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI; 
 public class UIManager : MonoBehaviour
 {
     [Header("Panel UI")]
     public GameObject panelStart;
     public GameObject panelRespawn;
     public GameObject panelWin;
+
+    [Header("HUD Teks (HP & Damage)")]
+    public Text textHP;
+    public Text textDamage;
 
     public static bool sudahMulai = false;
 
@@ -33,6 +37,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateUIStatus(int hpSekarang, int maxHp, int damageSekarang)
+    {
+        if (textHP != null) textHP.text = "HP: " + hpSekarang + "/" + maxHp;
+        if (textDamage != null) textDamage.text = "Damage: " + damageSekarang;
+    }
+
     public void MulaiGame()
     {
         sudahMulai = true;
@@ -55,10 +65,6 @@ public class UIManager : MonoBehaviour
         {
             panelWin.SetActive(true);
             Time.timeScale = 0f;
-        }
-        else
-        {
-            Debug.LogWarning("Panel Win belum dimasukkan ke slot Panel Win di UIManager!");
         }
     }
 

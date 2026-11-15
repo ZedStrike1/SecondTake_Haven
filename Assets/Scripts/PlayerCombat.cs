@@ -2,37 +2,68 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [Header("Status Serangan")]
     public int attackDamage = 10;
-    public float attackRange = 1.2f;
-    public LayerMask enemyLayer;
+    public float attackRange = 0.8f;
+    public Transform attackPoint;
+    public LayerMask enemyLayers;
+
+    [Header("Cooldown Serang")]
+    public float attackRate = 2f;
+    private float nextAttackTime = 0f;
+
+    private UIManager uiManager;
+    private PlayerHealth playerHealth;
+
+    void Start()
+    {
+        uiManager = FindFirstObjectByType<UIManager>();
+        playerHealth = GetComponent<PlayerHealth>();
+    }
 
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        if (Time.time >= nextAttackTime)
         {
-            Attack();
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.J))
+            {
+                Attack();
+                nextAttackTime = Time.time + 1f / attackRate;
+            }
         }
     }
 
     void Attack()
     {
- 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayer);
+        Vector2 posisiSerang = (attackPoint != null) ? attackPoint.position : transform.position;
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(posisiSerang, attackRange, enemyLayers);
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            MusuhSederhana m = enemy.GetComponent<MusuhSederhana>();
-            if (m != null)
+            MusuhSederhana musuh = enemy.GetComponent<MusuhSederhana>();
+            if (musuh != null)
             {
-                m.TakeDamage(attackDamage);
+                musuh.TakeDamage(attackDamage);
             }
         }
     }
 
-    public void IncreaseDamage(int bonus)
+    public void IncreaseDamage(int bonusDamage)
     {
-        attackDamage += bonus;
+        attackDamage += bonusDamage;
         Debug.Log("Damage naik menjadi: " + attackDamage);
+
+        if (uiManager != null && playerHealth != null)
+        {
+            uiManager.UpdateUIStatus(playerHealth.currentHealth, playerHealth.maxHealth, attackDamage);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Vector2 posisiSerang = (attackPoint != null) ? attackPoint.position : transform.position;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(posisiSerang, attackRange);
     }
 }
